@@ -10,10 +10,15 @@ import Foundation
 
 class User {
     
+    //properties
     var name: String
+    var screenName: String?
+    static var current: User?
     
+    //initializer
     init(dictionary: [String: Any]) {
         name = dictionary["name"] as! String
+        screenName = dictionary["screen_name"] as? String
 
     }
 }
