@@ -22,7 +22,7 @@ class User {
         name = dictionary["name"] as! String
         screenName = dictionary["screen_name"] as? String
         self.userDict = dictionary
-        profile_image_url_string = dictionary["profile_image_url"] as? String //get access to the profile image of the user for each tweet
+        profile_image_url_string = dictionary["profile_image_url_https"] as? String //get access to the profile image of the user for each tweet
         
 
     }

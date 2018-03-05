@@ -31,10 +31,10 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.rowHeight = 100
+        //tableView.rowHeight = 200
         
-        //tableView.rowHeight = UITableViewAutomaticDimension
-        //tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 100
         tableView.insertSubview(refreshControl, at: 0)
         
         APIManager.shared.getHomeTimeLine { (tweets, error) in

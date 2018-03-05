@@ -36,6 +36,7 @@ class TweetCell: UITableViewCell {
                 self.userImageView.setURL(userProfileURL)
             }*/
             userImageView.af_setImage(withURL: URL(string: tweet.user.profile_image_url_string!)!)
+            //userImageView.af_setImage(withURL: tweet.user.profile_image_url_string?)
             //userImageView.af_setImage(withURL: tweet.user.profile_image_url_string!)
         
             favoritesLabel.text = String(describing: tweet.favoriteCount ?? 0)
@@ -64,14 +65,15 @@ class TweetCell: UITableViewCell {
             tweet.favorited = false
             tweet.favoriteCount = tweet.favoriteCount! - 1
             favoritesLabel.text = String(describing: tweet.favoriteCount ?? 0)
-            //favoritesBtn.setImage(UIImage(named:"favor-icon-red"), for: UIControlState.normal)
+            favoritesBtn.setImage(UIImage(named:"favor-icon"), for: UIControlState.normal)
             
             // TODO: Send a POST request to the POST favorites/destrory endpoint
             APIManager.shared.unFavorite(tweet) { (tweet: Tweet?, error: Error?) in
                 if let  error = error {
                     print("Error favoriting tweet: \(error.localizedDescription)")
                 } else if let tweet = tweet {
-                    print("Successfully favorited the following Tweet: \n\(tweet.text)")
+               
+                print("Successfully favorited the following Tweet: \n\(tweet.text)")
                 }
             }
             
@@ -83,7 +85,7 @@ class TweetCell: UITableViewCell {
             
             // TODO: Update cell UI
             favoritesLabel.text = String(describing: tweet.favoriteCount ?? 0)
-            //favoritesBtn.setImage(UIImage(named:"favor-icon"), for: UIControlState.normal)
+            favoritesBtn.setImage(UIImage(named:"favor-icon-red"), for: UIControlState.normal)
             
             // TODO: Send a POST request to the POST favorites/create endpoint
             APIManager.shared.favorite(tweet) { (tweet: Tweet?, error: Error?) in
@@ -108,7 +110,7 @@ class TweetCell: UITableViewCell {
             //tweet.favoriteCount = 1
             // TODO: Update cell UI
             retweetLabel.text = String(describing: tweet.retweetCount)
-             //retweetBtn.setImage(UIImage(named:"retweet-icon-green"), for: UIControlState.normal)
+             retweetBtn.setImage(UIImage(named:"retweet-icon"), for: UIControlState.normal)
             
             // TODO: Send a POST request to the POST unretweet endpoint
             APIManager.shared.unRetweet(tweet) { (tweet: Tweet?, error: Error?) in
@@ -128,7 +130,7 @@ class TweetCell: UITableViewCell {
             
             // TODO: Update cell UI
             retweetLabel.text = String(describing: tweet.retweetCount )
-             //retweetBtn.setImage(UIImage(named:"retweet-icon"), for: UIControlState.normal)
+            retweetBtn.setImage(UIImage(named:"retweet-icon-green"), for: UIControlState.normal)
             
             // TODO: Send a POST request to the POST retweet endpoint
             APIManager.shared.retweet(tweet) { (tweet: Tweet?, error: Error?) in
@@ -148,9 +150,19 @@ class TweetCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        userImageView.layer.cornerRadius = 3
+        userImageView.clipsToBounds = true
+        tweetTextLabel.preferredMaxLayoutWidth = tweetTextLabel.frame.size.width
+        
         // Initialization code
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        tweetTextLabel.preferredMaxLayoutWidth = tweetTextLabel.frame.size.width
+        
+        
+    }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
