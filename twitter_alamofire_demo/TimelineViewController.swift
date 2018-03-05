@@ -19,6 +19,9 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.barTintColor = UIColor(red: 0.0/255.0, green: 132.0/255.0, blue:180.0/255.0 , alpha: 1.0)
+        
+        
         // Initialize a UIRefreshControl
         refreshControl = UIRefreshControl()
         
@@ -28,10 +31,10 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.rowHeight = 150
+        tableView.rowHeight = 100
         
         //tableView.rowHeight = UITableViewAutomaticDimension
-        //ableView.estimatedRowHeight = 250
+        //tableView.estimatedRowHeight = 100
         tableView.insertSubview(refreshControl, at: 0)
         
         APIManager.shared.getHomeTimeLine { (tweets, error) in
