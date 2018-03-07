@@ -129,7 +129,7 @@ class APIManager: SessionManager {
                 completion(tweet, nil)
             } else {
                 completion(nil, response.result.error)
-                print("error....")
+                print(response.result.error ?? "error")
             }
         }
     }

@@ -23,7 +23,7 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var favoritesBtn: UIButton!
     @IBOutlet weak var retweetLabel: UILabel!
     @IBOutlet weak var retweetBtn: UIButton!
-    
+    /////////TODO DO A CHECK FOR NEGATIVE LIKES OR RETWEETS
     var tweet: Tweet! {
         //property observer
         didSet {
