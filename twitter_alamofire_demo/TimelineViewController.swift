@@ -114,22 +114,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
-    /*override func prepare(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let cell = sender as! TweetCell
-        if let indexPath = tableView.indexPath(for: cell){
-            //            let movie = Movie(dictionary: movies[indexPath.row] )
-            print("IN PREPARE FOR SEGUE!!!!!!!!")
-            let tweet = tweets[indexPath.row]
-            print(tweet)
-            let detailTweetViewController = segue.destination as! DetailsViewController
-            detailTweetViewController.tweet = tweet
-        }
-        /*if segue.identifier == "detailViewTweet"{
-            var vc = segue.destination as! DetailsViewController
-            //vc.data = "Data you want to pass"
-            //Data has to be a variable name in your RandomViewController
-        }*/
-    }*/
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

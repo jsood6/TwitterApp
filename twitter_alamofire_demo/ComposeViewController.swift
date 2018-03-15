@@ -12,17 +12,36 @@ protocol ComposeViewControllerDelegate {
     func did(post: Tweet)
 }
 
-class ComposeViewController: UIViewController {
+class ComposeViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var wordCount: UILabel!
     @IBOutlet weak var screenNameLabel: UILabel!
     @IBOutlet weak var userProfileImage: UIImageView!
     @IBOutlet weak var tweetTextView: UITextView!
+    
     
     var delegate: ComposeViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tweetTextView.delegate = (self as! UITextViewDelegate)
+        tweetTextView.delegate = (self as UITextViewDelegate)
+        wordCount.text = ""
+        if let user = User.current{
+            userProfileImage.af_setImage(withURL: URL(string:user.profile_image_url_string!)!)
+            usernameLabel.text = user.name
+            screenNameLabel.text = "@\(String(describing: user.screenName))"
+        }
+        
+        /*let countNotReached = textView(tweetTextView, shouldChangeTextIn: nil, replacementText: tweetTextView.text)
+        tweetTextView.endEditing(true)
+        
+        if(countNotReached == true){
+            wordCount.text = "\(0) words"
+        }
+        else{
+            wordCount.text = "word limit reached"
+        }*/
+        
         
         
 
@@ -39,6 +58,7 @@ class ComposeViewController: UIViewController {
         
         // Construct what the new text would be if we allowed the user's latest edit
         let newText = NSString(string: textView.text!).replacingCharacters(in: range, with: text)
+        wordCount.text = "\(newText.characters.count)"
         
         // TODO: Update Character Count Label
         
@@ -51,10 +71,6 @@ class ComposeViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func didTapCancel(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
     @IBAction func didTapPost(_ sender: Any) {
         APIManager.shared.composeTweet(with: "This is my tweet 😀") { (tweet, error) in
             if let error = error {
@@ -62,9 +78,18 @@ class ComposeViewController: UIViewController {
             } else if let tweet = tweet {
                 self.delegate?.did(post: tweet)
                 print("Compose Tweet Success!")
+                
             }
         }
+        self.dismiss(animated: true, completion: nil)
     }
+    
+    
+    @IBAction func didTapCancel(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    
     
     /*
     // MARK: - Navigation
