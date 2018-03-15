@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
+class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ComposeViewControllerDelegate{
     
     var tweets: [Tweet] = []
     
@@ -41,12 +41,25 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
             if let tweets = tweets {
                 self.tweets = tweets
                 self.tableView.reloadData()
+                
+            } else if let error = error {
+                print("Error getting home timeline: " + error.localizedDescription)
+            }
+            self.refreshControl.endRefreshing()
+        }
+        //refreshActivityIndicator.stopAnimating()
+    }
+    
+    func did(post: Tweet) {
+        APIManager.shared.getHomeTimeLine { (tweets, error) in
+            if let tweets = tweets {
+                self.tweets = tweets
+                self.tableView.reloadData()
                 self.refreshControl.endRefreshing()
             } else if let error = error {
                 print("Error getting home timeline: " + error.localizedDescription)
             }
         }
-        //refreshActivityIndicator.stopAnimating()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -78,6 +91,45 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
             }
         }
     }
+    
+    /*override func performSegue(withIdentifier identifier: String, sender: Any?) {
+        
+    }*/
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(segue.identifier == "detailViewTweet"){
+            let cell = sender as! TweetCell
+            if let indexPath = tableView.indexPath(for: cell){
+                //            let movie = Movie(dictionary: movies[indexPath.row] )
+                print("IN PREPARE FOR SEGUE!!!!!!!!")
+                let tweet = tweets[indexPath.row]
+                print(tweet)
+                let detailTweetViewController = segue.destination as! DetailsViewController
+                detailTweetViewController.tweet = tweet
+            }
+        }
+        if(segue.identifier == "newTweetSegue"){
+            let composePost:ComposeViewController = segue.destination as! ComposeViewController
+            composePost.delegate = self
+        }
+    }
+    
+    /*override func prepare(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let cell = sender as! TweetCell
+        if let indexPath = tableView.indexPath(for: cell){
+            //            let movie = Movie(dictionary: movies[indexPath.row] )
+            print("IN PREPARE FOR SEGUE!!!!!!!!")
+            let tweet = tweets[indexPath.row]
+            print(tweet)
+            let detailTweetViewController = segue.destination as! DetailsViewController
+            detailTweetViewController.tweet = tweet
+        }
+        /*if segue.identifier == "detailViewTweet"{
+            var vc = segue.destination as! DetailsViewController
+            //vc.data = "Data you want to pass"
+            //Data has to be a variable name in your RandomViewController
+        }*/
+    }*/
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
