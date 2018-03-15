@@ -25,12 +25,12 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         tweetTextView.delegate = (self as UITextViewDelegate)
-        wordCount.text = ""
-        /*if let user = User.current{
+        wordCount.text = "140"
+        if let user = User.current{
             userProfileImage.af_setImage(withURL: URL(string:user.profile_image_url_string!)!)
             usernameLabel.text = user.name
             screenNameLabel.text = "@" + user.screenName!
-        }*/
+        }
         
         /*let countNotReached = textView(tweetTextView, shouldChangeTextIn: nil, replacementText: tweetTextView.text)
         tweetTextView.endEditing(true)
@@ -58,7 +58,7 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
         
         // Construct what the new text would be if we allowed the user's latest edit
         let newText = NSString(string: textView.text!).replacingCharacters(in: range, with: text)
-        wordCount.text = "\(newText.characters.count)"
+        wordCount.text = "\(characterLimit - newText.characters.count)"
         
         // TODO: Update Character Count Label
         

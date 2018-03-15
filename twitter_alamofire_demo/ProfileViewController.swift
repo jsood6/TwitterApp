@@ -38,7 +38,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableViewMyTweets.dataSource = self
         tableViewMyTweets.delegate = self
         
-        tableViewMyTweets.rowHeight = 150
+        tableViewMyTweets.rowHeight = 100
         tableViewMyTweets.insertSubview(refreshControl, at: 0)
         //tableViewMyTweets.rowHeight = UITableViewAutomaticDimension
         //tableViewMyTweets.estimatedRowHeight = 150
