@@ -26,11 +26,11 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
         super.viewDidLoad()
         tweetTextView.delegate = (self as UITextViewDelegate)
         wordCount.text = ""
-        if let user = User.current{
+        /*if let user = User.current{
             userProfileImage.af_setImage(withURL: URL(string:user.profile_image_url_string!)!)
             usernameLabel.text = user.name
-            screenNameLabel.text = "@\(String(describing: user.screenName))"
-        }
+            screenNameLabel.text = "@" + user.screenName!
+        }*/
         
         /*let countNotReached = textView(tweetTextView, shouldChangeTextIn: nil, replacementText: tweetTextView.text)
         tweetTextView.endEditing(true)
@@ -72,16 +72,17 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func didTapPost(_ sender: Any) {
-        APIManager.shared.composeTweet(with: "This is my tweet 😀") { (tweet, error) in
+        APIManager.shared.composeTweet(with: tweetTextView.text) { (tweet, error) in
             if let error = error {
                 print("Error composing Tweet: \(error.localizedDescription)")
             } else if let tweet = tweet {
                 self.delegate?.did(post: tweet)
                 print("Compose Tweet Success!")
-                
+                self.dismiss(animated: true, completion: nil)
             }
         }
-        self.dismiss(animated: true, completion: nil)
+        
+        
     }
     
     
